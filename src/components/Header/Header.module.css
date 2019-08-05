@@ -1,0 +1,5 @@
+.header {
+    /* задаём псевдоним */
+    grid-area: h;
+    background-color: green;
+}
