@@ -1,16 +1,13 @@
 import React from 'react';
-import object from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
+
+import object from './Profile.module.css';
 
 const Profile = () => {
     return (
-        <div className={object.content}>
-            <div>
-                img
-            </div>
-            <div>
-                ava + disc
-            </div>
+        <div>
+            <ProfileInfo/>
             <MyPosts/>
         </div>
     )
