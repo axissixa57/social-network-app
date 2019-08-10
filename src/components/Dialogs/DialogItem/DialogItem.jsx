@@ -8,6 +8,7 @@ const DialogItem = (props) => {
 
     return (
         <div className={`${object.dialog} ${object.active}`}>
+            {/*если не будет прописан Router, кот. отрисует компоненту, то ничего и не отрисуется*/}
             <NavLink to={path}>{props.name}</NavLink>
         </div>
     )

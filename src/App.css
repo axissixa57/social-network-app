@@ -13,10 +13,10 @@
   /* кол-во колонок в grid - 2 (nav, content) */
   grid-template-columns: 2fr 10fr;
   /* расстояние между элементами */
-  /* grid-gap: 10px; */
+  grid-column-gap : 20px;
 }
 
 .app-wrapper-content {
-  grid-area: c;
-  background-color: cornflowerblue;
-}
+   grid-area: c;
+   background-color: cornflowerblue;
+ }

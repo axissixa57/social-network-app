@@ -1,10 +1,13 @@
 import React from 'react';
 import object from './Post.module.css';
 
-const Post = () => {
+const Post = (props) => {
     return (
         <div className={object.item}>
-            Post 1
+            {props.message}
+            <div>
+                <span>like</span> {props.likesCount}
+            </div>
         </div>
     )
 }
