@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import * as axios from 'axios';
 import {
-    setUsersAC,
-    followAC,
-    unfollowAC,
-    setCurrentPageAC,
-    setUsersTotalCountAC,
-    toggleIsFetchingAC
+    follow,
+    unfollow,
+    setCurrentPage,
+    toggleFollowingProgress,
+    getUsersThunkCreator, followThunkCreator, unfollowThunkCreator
 } from "../../redux/actions/users";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -20,25 +18,13 @@ class UsersContainer extends React.Component {
 
     // вызывается, когда jsx разметка отрисуется
     componentDidMount() {
-        // когда данных нет, отправляем true, соответственно preloader будет грузиться на стр.
-        this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(res => {
-                // когда данные пришли, отправляем false, preloader не будет грузиться на стр.
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(res.data.items);
-                this.props.setTotalUsersCount(res.data.totalCount);
-            });
+        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
-        this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
-            .then(response => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data.items);
-            });
+
+        this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
     }
 
     render() {
@@ -50,8 +36,9 @@ class UsersContainer extends React.Component {
                 currentPage={this.props.currentPage}
                 onPageChanged={this.onPageChanged}
                 users={this.props.users}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
+                follow={this.props.followThunkCreator}
+                unfollow={this.props.unfollowThunkCreator}
+                followingInProgress={this.props.followingInProgress}
             />
         </>
     }
@@ -63,39 +50,23 @@ const mapStateToProps = (state) => {
         pageSize: state.usersReducer.pageSize,
         totalUsersCount: state.usersReducer.totalUsersCount,
         currentPage: state.usersReducer.currentPage,
-        isFetching: state.usersReducer.isFetching
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        setUsers: (users) => {
-            dispatch(setUsersAC(users));
-        },
-        follow: (userId) => {
-            dispatch(followAC(userId));
-        },
-        unfollow: (userId) => {
-            dispatch(unfollowAC(userId));
-        },
-        setCurrentPage: (pageNumber) => {
-            dispatch(setCurrentPageAC(pageNumber));
-        },
-        setTotalUsersCount: (totalCount) => {
-            dispatch(setUsersTotalCountAC(totalCount));
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(toggleIsFetchingAC(isFetching));
-        }
+        isFetching: state.usersReducer.isFetching,
+        followingInProgress: state.usersReducer.followingInProgress
     };
 };
 
 // connect использует ф-цию store - subscribe(),
 // и каждый connect, кот. мы оборачиваем он локально подписывается на store
-// соответственно, когда мы что-то dispatch отрабает вызов подписки, кот. находится в массиве listeners в store, кот попал туда
-// благодаря subscribe. Далее store меняется в последстии чего попалает в mapStateToProps и компонента перерисовывается,
+// соответственно, когда мы что-то dispatch отрабает вызов подписки,
+// кот. находится в массиве listeners в store, кот попал туда благодаря subscribe.
+// Далее store меняется в последстии чего попалает в mapStateToProps и компонента перерисовывается,
 // если state в store не поменялся - компонента не перерисуется
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UsersContainer);
+export default connect(mapStateToProps, {
+    follow,
+    unfollow,
+    setCurrentPage,
+    toggleFollowingProgress,
+    getUsersThunkCreator,
+    followThunkCreator,
+    unfollowThunkCreator
+})(UsersContainer);

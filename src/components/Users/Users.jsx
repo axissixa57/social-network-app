@@ -1,5 +1,8 @@
 import React from 'react';
 import styles from "./Users.module.css";
+import userLogo from '../../assets/images/user.png';
+import {NavLink} from "react-router-dom";
+import * as axios from "axios";
 
 const Users = (props) => {
     // если число пользователей например 19, а нужна выводить на странице 5 то будет 3 стр, с Math.ceil будет 4, т.к. округляем в большую сторону
@@ -26,16 +29,19 @@ const Users = (props) => {
                     return <div key={u.id}>
                         <span>
                             <div>
-                                <img className={styles.userPhoto} src={u.photoUrl} alt=""/>
+                                <NavLink to={`/profile/${u.id}`}>
+                                    <img
+                                        className={styles.userPhoto}
+                                        src={u.photos.small != null ? u.photos.small : userLogo}
+                                        alt=""
+                                    />
+                                </NavLink>
                             </div>
                             <div>
                                 {u.followed
-                                    ? <button onClick={() => {
-                                        props.unfollow(u.id)
-                                    }}>Unfollow</button>
-                                    : <button onClick={() => {
-                                        props.follow(u.id)
-                                    }}>Follow</button>
+                                    // если в массиве у userReducer -> state.followingInProgress есть совпавшийся, то вернёт true
+                                    ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
+                                    : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => { props.follow(u.id) }}>Follow</button>
                                 }
                             </div>
                         </span>

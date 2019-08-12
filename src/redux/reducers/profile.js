@@ -1,4 +1,4 @@
-import {ADD_POST, UPDATE_NEW_POST_TEXT} from "../actions/profile";
+import {ADD_POST, SET_USER_PROFILE, UPDATE_NEW_POST_TEXT} from "../actions/profile";
 
 let initialState = {
     posts: [
@@ -7,7 +7,8 @@ let initialState = {
         {id: 3, message: 'Blabla', likesCount: 11},
         {id: 4, message: 'Dada', likesCount: 11}
     ],
-    newPostText: 'it-kamasutra.com'
+    newPostText: 'it-kamasutra.com',
+    profile: null
 };
 
 const profile = (state = initialState, action) => {
@@ -29,6 +30,12 @@ const profile = (state = initialState, action) => {
             return {
                 ...state,
                 newPostText: action.newText
+            };
+        }
+        case SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
             };
         }
         default:

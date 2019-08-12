@@ -3,3 +3,11 @@
     grid-area: h;
     background-color: green;
 }
+
+.loginBlock {
+    float: right;
+}
+.loginBlock a {
+    color: white;
+    text-decoration: none;
+}

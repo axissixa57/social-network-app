@@ -4,15 +4,18 @@ import {
     SET_TOTAL_USERS_COUNT,
     SET_USERS,
     TOGGLE_IS_FETCHING,
-    UNFOLLOW
+    UNFOLLOW,
+    TOGGLE_IS_FOLLOWING_PROGRESS
 } from "../actions/users";
 
-let initialState = {
+const initialState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    // массив нужен чтобы хранить id пользователя на кот. подписываем / отписываемся, чтобы disable только 1 кнопку
+    followingInProgress: []
 };
 
 const users = (state = initialState, action) => {
@@ -27,7 +30,7 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if(u.id === action.userId) {
+                    if (u.id === action.userId) {
                         return {...u, followed: true}
                     }
                     return u;
@@ -38,7 +41,7 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if(u.id === action.userId) {
+                    if (u.id === action.userId) {
                         return {...u, followed: false}
                     }
                     return u;
@@ -61,6 +64,16 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: action.isFetching
+            };
+        }
+        case TOGGLE_IS_FOLLOWING_PROGRESS: {
+            return {
+                ...state,
+                followingInProgress: action.isFetching ?
+                    // когда true закидываем id в массив, т.е. disabled кнопку (= true)
+                    [...state.followingInProgress, action.userId]
+                    // когда false выкидываем id и у кнопки disabled = false
+                    : state.followingInProgress.filter(id => id != action.userId)
             };
         }
         default:
