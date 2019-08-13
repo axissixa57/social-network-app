@@ -9,6 +9,8 @@ import {
 } from "../../redux/actions/users";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 class UsersContainer extends React.Component {
     // конструктор необязателен, props и так придут по умолчанию
@@ -55,18 +57,15 @@ const mapStateToProps = (state) => {
     };
 };
 
-// connect использует ф-цию store - subscribe(),
-// и каждый connect, кот. мы оборачиваем он локально подписывается на store
-// соответственно, когда мы что-то dispatch отрабает вызов подписки,
-// кот. находится в массиве listeners в store, кот попал туда благодаря subscribe.
-// Далее store меняется в последстии чего попалает в mapStateToProps и компонента перерисовывается,
-// если state в store не поменялся - компонента не перерисуется
-export default connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    toggleFollowingProgress,
-    getUsersThunkCreator,
-    followThunkCreator,
-    unfollowThunkCreator
-})(UsersContainer);
+export default compose(
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        setCurrentPage,
+        toggleFollowingProgress,
+        getUsersThunkCreator,
+        followThunkCreator,
+        unfollowThunkCreator
+    }),
+    withAuthRedirect
+)(UsersContainer);

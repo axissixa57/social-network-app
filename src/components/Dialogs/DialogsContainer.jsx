@@ -3,11 +3,16 @@ import {connect} from "react-redux";
 
 import Dialogs from "./Dialogs";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/actions/dialogs";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
+
+// hoc
+const AuthRedirectComponent = withAuthRedirect(Dialogs);
 
 // как бы срабатывает обращение к store.getState() в state
 const mapStateToProps = (state) => {
     return {
-        dialogsPage: state.dialogsReducer,
+        dialogsPage: state.dialogsReducer
     };
 };
 
@@ -18,12 +23,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-// connect сам засунет в первый параметр state, а во 2-ой dispatch
-// также connect оптимизирует отрисовку, например, если нет изменений, он его не отрисует
-// проверяет значения в ключах у объекта, кот. вернёт mapStateToProps, если изменелись - перерисовать, нет - не рисовать
-const DialogsContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
 )(Dialogs);
-
-export default DialogsContainer;

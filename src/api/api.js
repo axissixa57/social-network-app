@@ -1,6 +1,7 @@
 import * as axios from "axios";
 
 const instance = axios.create({
+    // `withCredentials` indicates whether or not cross-site Access-Control requests should be made using credentials
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers:     {
@@ -9,7 +10,7 @@ const instance = axios.create({
 });
 
 export const usersAPI = {
-    // getUsers: getUsers()
+    // идентично записи getUsers: getUsers()
     getUsers(currentPage = 1, pageSize = 10) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(res => {
@@ -25,5 +26,11 @@ export const usersAPI = {
     },
     getProfile(userId) {
         return instance.get(`profile/${userId}`);
+    }
+};
+
+export const authAPI = {
+    me() {
+        return instance.get(`auth/me`)
     }
 };
