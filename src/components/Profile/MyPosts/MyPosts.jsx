@@ -2,48 +2,51 @@ import React from 'react';
 
 import object from './MyPosts.module.css';
 import Post from './Post/Post';
-
-const newPostElement = React.createRef();
+import {Field, reduxForm} from "redux-form";
 
 const MyPosts = (props) => {
     const postsElements =
         props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
-    const newPostElement = React.createRef();
-
-    const onAddPost = () => {
-        props.addPost();
-    }
-
-    const onPostChange = () => {
-        const text = newPostElement.current.value;
-        props.updateNewPostText(text);
+    const addPostMessage = (value) => {
+        props.addPost(value.newPostElement);
     }
 
     return (
         <div className={object.postsBlock}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea
-                        ref={newPostElement}
-                        cols="30"
-                        rows="10"
-                        onChange={onPostChange}
-                        value={props.newPostText}>
-                    </textarea>
-                </div>
-                <div>
-                    {/*current ссылается на нативный html element*/}
-                    <button onClick={onAddPost}>Add post</button>
-                </div>
-            </div>
+            <PostMessageTextAreaFormRedux onSubmit={addPostMessage}/>
             <div className={object.posts}>
                 {postsElements}
             </div>
         </div>
     )
-}
+};
+
+const PostMessageTextArea = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <div>
+                    <Field
+                        name='newPostElement'
+                        cols="30"
+                        rows="10"
+                        placeholder='Enter your message'
+                        component='textarea'
+                    />
+                </div>
+            </div>
+            <div>
+                <button>Add post</button>
+            </div>
+        </form>
+    )
+};
+
+const PostMessageTextAreaFormRedux = reduxForm({
+    form: 'postMessageTextArea'
+})(PostMessageTextArea);
 
 export default MyPosts;
 
