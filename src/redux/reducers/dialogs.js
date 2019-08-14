@@ -1,4 +1,4 @@
-import {SEND_MESSAGE, UPDATE_NEW_MESSAGE_BODY} from "../actions/dialogs";
+import {SEND_MESSAGE} from "../actions/dialogs";
 
 const initialState = {
     dialogs: [
@@ -16,25 +16,17 @@ const initialState = {
         {id: 4, message: 'Yo'},
         {id: 5, message: 'Yo'}
     ],
-    newMessageBody: ''
 };
 
 const dialogs = (state = initialState, action) => {
 
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY: {
-            return {
-                ...state,
-                newMessageBody: action.body
-            };
-        }
         case SEND_MESSAGE: {
-            const body = state.newMessageBody;
+            const body = action.newMessageBody;
             // делаем копию того, что будем менять
             return {
                 ...state,
                 messages: [...state.messages, {id: 6, message: body}],
-                newMessageBody: ''
             };
         }
         default:
