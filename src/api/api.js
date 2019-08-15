@@ -4,7 +4,7 @@ const instance = axios.create({
     // `withCredentials` indicates whether or not cross-site Access-Control requests should be made using credentials
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers:     {
+    headers: {
         "API-KEY": 'f1ea0441-d702-44bf-808f-60ba98040921'
     }
 });
@@ -26,7 +26,7 @@ export const usersAPI = {
     },
     getProfile(userId) {
         // если переносим метод, а некот. люди неосводемлены, можно сделать т.о.
-        console.warn('Obsolete method. Please use profileAPI object')
+        console.warn('Obsolete method. Please use profileAPI object');
         return profileAPI.getProfile(userId);
     }
 };
@@ -47,5 +47,11 @@ export const profileAPI = {
 export const authAPI = {
     me() {
         return instance.get(`auth/me`)
-    }
+    },
+    login(email, password, rememberMe = false) {
+        return instance.post(`auth/login`, {email, password, rememberMe});
+    },
+    logout() {
+        return instance.delete(`auth/login`);
+    },
 };

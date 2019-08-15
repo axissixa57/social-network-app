@@ -2,7 +2,6 @@ import React from 'react';
 import styles from "./Users.module.css";
 import userLogo from '../../assets/images/user.png';
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
 
 const Users = (props) => {
     // если число пользователей например 19, а нужна выводить на странице 5 то будет 3 стр, с Math.ceil будет 4, т.к. округляем в большую сторону

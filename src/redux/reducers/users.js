@@ -73,7 +73,7 @@ const users = (state = initialState, action) => {
                     // когда true закидываем id в массив, т.е. disabled кнопку (= true)
                     [...state.followingInProgress, action.userId]
                     // когда false выкидываем id и у кнопки disabled = false
-                    : state.followingInProgress.filter(id => id != action.userId)
+                    : state.followingInProgress.filter(id => id !== action.userId)
             };
         }
         default:

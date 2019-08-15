@@ -3,6 +3,11 @@ import React from 'react';
 import object from './MyPosts.module.css';
 import Post from './Post/Post';
 import {Field, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
+
+// вынесено в отдельную переменную из-за ошибки зацикливания
+const maxLength10 = maxLengthCreator(10);
 
 const MyPosts = (props) => {
     const postsElements =
@@ -33,7 +38,10 @@ const PostMessageTextArea = (props) => {
                         cols="30"
                         rows="10"
                         placeholder='Enter your message'
-                        component='textarea'
+                        // в массиве название ф-ций валидаторов
+                        validate={[required, maxLength10]}
+                        // ссылка на компонент в др. файле
+                        component={Textarea}
                     />
                 </div>
             </div>
