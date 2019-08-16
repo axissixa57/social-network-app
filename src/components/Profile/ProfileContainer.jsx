@@ -9,8 +9,17 @@ import {compose} from "redux";
 // прежде чем отрисовать jsx закидываем props, обрабатываем hoc-ами
 class ProfileContainer extends React.Component {
     componentDidMount() {
+        // id из url (/profile/123 -> 123)
         let userId = this.props.match.params.userId;
-        if(!userId) userId = this.props.authorizedUserID;
+        // если в url нет айди, берём id чела кот. вошёл через логин
+        if(!userId) {
+            userId = this.props.authorizedUserID;
+
+            if(!userId) {
+                // если ни в url, ни за логинился нет id
+                this.props.history.push('/login');
+            }
+        }
 
         this.props.getUserProfile(userId);
         this.props.getStatus(userId);

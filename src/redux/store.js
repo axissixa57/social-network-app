@@ -7,6 +7,7 @@ import dialogs from './reducers/dialogs';
 import sidebar from "./reducers/sidebar";
 import users from "./reducers/users";
 import auth from "./reducers/auth";
+import app from "./reducers/app";
 
 const rootReducer = combineReducers({
     profileReducer: profile,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     usersReducer: users,
     authReducer: auth,
     // обязательный ключ form, т.к. библиотека будет искать его
-    form: formReducer
+    form: formReducer,
+    appReducer: app
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
