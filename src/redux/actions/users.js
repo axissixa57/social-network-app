@@ -20,12 +20,13 @@ export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS
 // thunks
 // redux store (а именно thunkMiddleware) запустит вложенную ф-цию и закинет dispatch, а параметры с внешней ф-ции придут через замыкание
 // store.dispatch(thunk) -> thunkMiddleware -> store.dispatch(actions) -> reducers -> new state -> rerenderComponent
-export const getUsersThunkCreator = (currentPage, pageSize) => {
+export const getUsersThunkCreator = (page, pageSize) => {
     return (dispatch) => {
         // когда данных нет, отправляем true, соответственно preloader будет грузиться на стр. (UserContainer)
         dispatch(toggleIsFetching(true));
+        // dispatch(setCurrentPage(page)); ???
 
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
+        usersAPI.getUsers(page, pageSize).then(data => {
             dispatch(toggleIsFetching(false));
             dispatch(setUsers(data.items));
             dispatch(setUsersTotalCount(data.totalCount));
