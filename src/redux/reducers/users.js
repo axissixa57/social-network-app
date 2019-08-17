@@ -15,11 +15,13 @@ const initialState = {
     currentPage: 1,
     isFetching: false,
     // массив нужен чтобы хранить id пользователя на кот. подписываем / отписываемся, чтобы disable только 1 кнопку
-    followingInProgress: []
+    followingInProgress: [],
+    fake: 10
 };
 
 const users = (state = initialState, action) => {
     switch (action.type) {
+        case 'FAKE' : return {...state, fake: state.fake + 1}
         case SET_USERS: {
             return {
                 ...state,

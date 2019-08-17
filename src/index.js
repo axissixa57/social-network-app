@@ -10,6 +10,10 @@ import store from './redux/store';
 import './index.css'
 import App from './App';
 
+// setInterval(() => {
+//     store.dispatch({type: 'FAKE'})
+// }, 1000);
+
 ReactDOM.render(
     <BrowserRouter>
         <Provider store={store}>

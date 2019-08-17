@@ -37,6 +37,7 @@ class UsersContainer extends React.Component {
     }
 
     render() {
+        // console.log('render UserContainer');
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <Users
@@ -64,7 +65,10 @@ class UsersContainer extends React.Component {
 //     };
 // };
 
+// mapStateToProps срабатывает всегда когда меняется state, но перерисовка комонента кот. связан со свойствами из mapStateToProps не перерисовывается, до тех пор пока
+// не измениться какое-то свойства внутри него. Идёт сравнение значений в этом объекте. Предыдущего с настоящим
 const mapStateToProps = (state) => {
+    // console.log('mapStateToProps UserContainer');
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
