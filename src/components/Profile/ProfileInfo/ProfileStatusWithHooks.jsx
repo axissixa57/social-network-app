@@ -25,7 +25,7 @@ const ProfileStatusWithHooks = (props) => {
             {/*true && 1 - покажет 1*/}
             { !editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || 'Hello World!'} yo</span>
+                    <span onDoubleClick={activateEditMode}>{props.status || 'Дао дэ цзин — основополагающий источник учения и один из выдающихся памятников китайской мысли, оказавший большое влияние на культуру Китая и всего мира.'}</span>
                 </div>
             }
             {editMode &&

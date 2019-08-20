@@ -18,11 +18,14 @@ const MyPosts = (props) => {
     }
 
     return (
-        <div className={object.postsBlock}>
-            <h3>My posts</h3>
-            <PostMessageTextAreaFormRedux onSubmit={addPostMessage}/>
-            <div className={object.posts}>
-                {postsElements}
+        <div className='wide_column_wrap'>
+            <div className={object.postsBlock}>
+
+                <h3>My posts</h3>
+                <PostMessageTextAreaFormRedux onSubmit={addPostMessage}/>
+                <div className={object.posts}>
+                    {postsElements}
+                </div>
             </div>
         </div>
     )

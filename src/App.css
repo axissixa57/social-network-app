@@ -1,22 +1,21 @@
 .app-wrapper {
-  /* все первые потомки (на одном уровне) кот. находятся внутри блока будут вести себя как grid элементы */
-  margin: 0 auto;
-  display: grid;
-  width: 1200px;
+    /* все первые потомки (на одном уровне) кот. находятся внутри блока будут вести себя как grid элементы */
+    margin: 0 auto;
+    display: grid;
+    width: 1200px;
+    background-color: #edeef0;
 
-  grid-template-areas:
-    "h h"
-    "n c";
-  /* кол-во строк в grid - 2 (header, content) */
-  /* 60px - высота, 1fr - фракция (сколько равных частей будет занимать колонка) */
-  grid-template-rows: 60px 1fr;
-  /* кол-во колонок в grid - 2 (nav, content) */
-  grid-template-columns: 2fr 10fr;
-  /* расстояние между элементами */
-  grid-column-gap : 20px;
+    grid-template-areas: "h h" "n c";
+    /* кол-во строк в grid - 2 (header, content) */
+    /* 60px - высота, 1fr - фракция (сколько равных частей будет занимать колонка) */
+    grid-template-rows: 60px 1fr;
+    /* кол-во колонок в grid - 2 (nav, content) */
+    grid-template-columns: 2fr 10fr;
+    /* расстояние между элементами */
+    grid-column-gap: 20px;
 }
 
 .app-wrapper-content {
-   grid-area: c;
-   background-color: chartreuse;
- }
+    background-color: #fff;
+    grid-area: c;
+}

@@ -2,8 +2,8 @@ import React from 'react';
 
 import object from './ProfileInfo.module.css';
 import Preloader from "../../common/Preloader/Preloader";
-import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import PavelDurov from '../../../assets/images/pavel-durov.jpg';
 
 const ProfileInfo = (props) => {
     if(!props.profile) {
@@ -11,9 +11,9 @@ const ProfileInfo = (props) => {
     }
 
     return (
-        <div>
+        <div className='narrow_column_wrap'>
             <div className={object.descriptionBlock}>
-                <img src={props.profile.photos.large} alt=""/>
+                <img width="300" height="326" src={!props.profile.photos.large ? PavelDurov : props.profile.photos.large} alt="Pavel Durov"/>
                 {/*ProfileStatus*/}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
             </div>

@@ -9,16 +9,16 @@ const Navbar = () => {
     return (
         <nav className={object.nav}>
             <div className={object.item}>
-                <NavLink to='/profile' activeClassName={object.active}>Profile</NavLink>
+                <NavLink to='/profile' activeClassName={object.active}>My profile</NavLink>
+            </div>
+            <div className={object.item}>
+                <NavLink to='/news' activeClassName={object.active}>News</NavLink>
             </div>
             <div className={object.item}>
                 <NavLink to='/dialogs' activeClassName={object.active}>Messages</NavLink>
             </div>
             <div className={object.item}>
-                <NavLink to='/users' activeClassName={object.active}>Users</NavLink>
-            </div>
-            <div className={object.item}>
-                <NavLink to='/news' activeClassName={object.active}>News</NavLink>
+                <NavLink to='/users' activeClassName={object.active}>Friends</NavLink>
             </div>
             <div className={object.item}>
                 <NavLink to='/music' activeClassName={object.active}>Music</NavLink>
