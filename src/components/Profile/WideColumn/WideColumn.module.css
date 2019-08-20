@@ -1,0 +1,16 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 3fr;
+    grid-gap: 20px;
+}
+
+.infoBlock {
+
+}
+
+.pageName {
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 5px;
+}

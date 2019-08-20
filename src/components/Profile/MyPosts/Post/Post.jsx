@@ -3,7 +3,7 @@ import object from './Post.module.css';
 
 const Post = (props) => {
     return (
-        <div className={object.item}>
+        <div className={`${object.item} page-block`}>
             {props.message}
             <div>
                 <span>like</span> {props.likesCount}

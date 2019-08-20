@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import styles from './ProfileInfo.module.css'
 
 const ProfileStatusWithHooks = (props) => {
     // hook - используется state и возможность его изменения внутри ф-ции ProfileStatusWithHooks
@@ -21,11 +22,11 @@ const ProfileStatusWithHooks = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.pageStatus}>
             {/*true && 1 - покажет 1*/}
             { !editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || 'Дао дэ цзин — основополагающий источник учения и один из выдающихся памятников китайской мысли, оказавший большое влияние на культуру Китая и всего мира.'}</span>
+                    <span onDoubleClick={activateEditMode}>{props.status || '道德經 — Дао дэ цзин'}</span>
                 </div>
             }
             {editMode &&

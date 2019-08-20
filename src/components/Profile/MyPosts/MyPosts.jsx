@@ -18,14 +18,13 @@ const MyPosts = (props) => {
     }
 
     return (
-        <div className='wide_column_wrap'>
-            <div className={object.postsBlock}>
-
+        <div className={`${object.postsBlock}`}>
+            <div className='page-block'>
                 <h3>My posts</h3>
                 <PostMessageTextAreaFormRedux onSubmit={addPostMessage}/>
-                <div className={object.posts}>
-                    {postsElements}
-                </div>
+            </div>
+            <div className={object.posts}>
+                {postsElements}
             </div>
         </div>
     )
@@ -38,8 +37,8 @@ const PostMessageTextArea = (props) => {
                 <div>
                     <Field
                         name='newPostElement'
-                        cols="30"
-                        rows="10"
+                        cols="70"
+                        rows="5"
                         placeholder='Enter your message'
                         // в массиве название ф-ций валидаторов
                         validate={[required, maxLength10]}
