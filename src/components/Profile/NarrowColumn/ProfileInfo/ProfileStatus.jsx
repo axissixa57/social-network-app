@@ -4,19 +4,19 @@ class ProfileStatus extends React.Component {
     state = {
         editMode: false,
         status: this.props.status
-    }
+    };
 
     onStatusChange = (e) => {
         this.setState({
             status: e.currentTarget.value
         });
-    }
+    };
 
     activateEditMode = () => {
         this.setState({
             editMode: true
         });
-    }
+    };
 
     deactivateEditMode = () => {
         this.setState({
@@ -24,7 +24,7 @@ class ProfileStatus extends React.Component {
         });
         // отправляем на значение на сервер когда вышли из редактируемого мода
         this.props.updateStatus(this.state.status);
-    }
+    };
 
     componentDidUpdate(prevProps, prevState) {
         if(prevProps.status !== this.props.status) {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './NarrowColumn.module.css';
-import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const NarrowColumn = (props) => {
     return (

@@ -1,0 +1,31 @@
+.postsBlock {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 300px 2fr;
+    grid-gap: 20px;
+    padding-bottom: 20px;
+}
+
+.posts {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 70px 1fr;
+}
+
+textarea {
+    resize: none;
+}
+
+.postsHeader {
+    border-radius: 4px 4px 0 0;
+}
+
+.wallPosts {
+    display: grid;
+    grid-auto-rows: 100px;
+    grid-row-gap: 20px;
+}
+
+.wallPosts div:first-child  {
+    border-radius: 0 0 4px 4px;
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styles from './WideColumn.module.css';
-import MyPostsContainer from "../MyPosts/MyPostsContainer";
-import ProfileStatusWithHooks from "../ProfileInfo/ProfileStatusWithHooks";
+import ProfileStatusWithHooks from "../NarrowColumn/ProfileInfo/ProfileStatusWithHooks";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
 const WideColumn = (props) => {
     return (

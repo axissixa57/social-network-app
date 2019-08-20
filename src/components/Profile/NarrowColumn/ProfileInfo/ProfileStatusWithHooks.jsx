@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './ProfileInfo.module.css'
 
 const ProfileStatusWithHooks = (props) => {
@@ -6,6 +6,10 @@ const ProfileStatusWithHooks = (props) => {
     // useState - возращает массив, в кот. первый элемент заданное значение, а 2-ой ф-ция кот. меняет его
     const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(props.status);
+
+    useEffect(() => {
+        setStatus(props.status);
+    }, [props.status]);
 
     const activateEditMode = () => {
         setEditMode(true);
@@ -26,7 +30,7 @@ const ProfileStatusWithHooks = (props) => {
             {/*true && 1 - покажет 1*/}
             { !editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || '道德經 — Дао дэ цзин'}</span>
+                    <span onDoubleClick={activateEditMode}>{props.status || ''}</span>
                 </div>
             }
             {editMode &&

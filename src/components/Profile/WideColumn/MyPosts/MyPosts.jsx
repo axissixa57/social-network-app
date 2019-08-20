@@ -3,8 +3,8 @@ import React from 'react';
 import object from './MyPosts.module.css';
 import Post from './Post/Post';
 import {Field, reduxForm} from "redux-form";
-import {maxLengthCreator, required} from "../../../utils/validators/validators";
-import {Textarea} from "../../common/FormsControls/FormsControls";
+import {maxLengthCreator, required} from "../../../../utils/validators/validators";
+import {Textarea} from "../../../common/FormsControls/FormsControls";
 
 // вынесено в отдельную переменную из-за ошибки зацикливания
 const maxLength10 = maxLengthCreator(10);
@@ -20,11 +20,13 @@ const MyPosts = (props) => {
     return (
         <div className={`${object.postsBlock}`}>
             <div className='page-block'>
-                <h3>My posts</h3>
                 <PostMessageTextAreaFormRedux onSubmit={addPostMessage}/>
             </div>
             <div className={object.posts}>
-                {postsElements}
+                <div className={`${object.postsHeader} page-block`}>
+                    <h3>My posts</h3>
+                </div>
+                <div className={object.wallPosts}>{postsElements}</div>
             </div>
         </div>
     )
