@@ -1,0 +1,21 @@
+{
+  "database": "mongodb://localhost:27017/node-test",
+  "port": 3005,
+  "corsOptions": {
+    "origin": "http://localhost:3001",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "credentials": true
+  },
+  "localAuth": {
+    "session": false
+  },
+  "secret": "passport-test",
+  "basePageRedirect": "http://localhost:3001",
+  "successRedirect": "http://localhost:3001/#login-success",
+  "failureRedirect": "http://localhost:3001",
+  "sessionOptions": {
+    "secret": "passport_test",
+    "resave": true,
+    "saveUninitialized": true
+  }
+}

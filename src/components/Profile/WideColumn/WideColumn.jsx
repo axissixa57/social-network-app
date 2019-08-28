@@ -8,7 +8,7 @@ const WideColumn = (props) => {
     return (
         <div className={styles.wrapper}>
             <div className={`${styles.infoBlock} page-block`}>
-                <h2 className={styles.pageName}>{props.profile ? props.profile.fullName : 'Pavel Durov'}</h2>
+                <h2 className={styles.pageName}>{props.profile ? props.profile.fullName : ''}</h2>
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
             </div>
             <MyPostsContainer/>

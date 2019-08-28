@@ -5,9 +5,9 @@ import Preloader from "../../../common/Preloader/Preloader";
 import PavelDurov from '../../../../assets/images/pavel-durov.jpg';
 
 const ProfileInfo = (props) => {
-    if (!props.profile) {
-        return <Preloader/>
-    }
+    // if (!props.profile) {
+    //     return <Preloader/>
+    // }
 
     return (
         <div className={object.descriptionBlock}>
