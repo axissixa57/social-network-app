@@ -1,4 +1,4 @@
-import {ADD_POST, SET_STATUS, SET_USER_PROFILE} from "../actions/profile";
+import {ADD_POST, DELETE_POST, SET_STATUS, SET_USER_PROFILE} from "../actions/profile";
 
 let initialState = {
     posts: [
@@ -35,6 +35,12 @@ const profile = (state = initialState, action) => {
             return {
                 ...state,
                 status: action.status
+            };
+        }
+        case DELETE_POST: {
+            return {
+                ...state,
+                posts: state.posts.filter(p => p.id != action.postId)
             };
         }
         default:
