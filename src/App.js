@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-// оборачиваем в hoc withRouter для корректной работы внутринних Routes
+// оборачиваем в hoc withRouter для корректной работы внутринних Routes (прокидываются доп. пропсы типо match,locate,history. Будет ошибка если не оберуть компоненту <App/> - BrowserRouter-ом
 export default compose(
     connect(mapStateToProps, {initializeApp}),
     withRouter

@@ -7,6 +7,7 @@ import {
     UNFOLLOW,
     TOGGLE_IS_FOLLOWING_PROGRESS
 } from "../actions/users";
+import {updateObjectInArray} from "../../utils/object-helpers";
 
 const initialState = {
     users: [],
@@ -31,23 +32,13 @@ const users = (state = initialState, action) => {
         case FOLLOW: {
             return {
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: true}
-                    }
-                    return u;
-                })
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
             };
         }
         case UNFOLLOW: {
             return {
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: false}
-                    }
-                    return u;
-                })
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})
             };
         }
         case SET_CURRENT_PAGE: {
