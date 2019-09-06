@@ -1,7 +1,6 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-    // `withCredentials` indicates whether or not cross-site Access-Control requests should be made using credentials
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
