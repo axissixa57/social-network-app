@@ -23,9 +23,7 @@ export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS});
 
 export const initializeApp = () => (dispatch) => {
     // dispatch, если нужно может вернуть значение, а конкретно promise (например, в thunk-e getAuthUserData(), если стоит return ...)
-    const promise = dispatch(getAuthUserData());
-    //dispatch(somethingelse());
-    //dispatch(somethingelse());
+    const promise = dispatch(getAuthUserData()); // Promise {<pending>}
     Promise.all([promise])
         .then(() => {
             dispatch(initializedSuccess());

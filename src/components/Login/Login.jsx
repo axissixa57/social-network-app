@@ -13,7 +13,7 @@ const LoginForm = ({handleSubmit, error}) => {
          // в нём поумолчанию при отправке submit вызывается e.preventDefault,
          // собираются все данные из полей кот. мы ввели в объект и передаются в props.onSubmit({...})
          // при возникновении ошибка: You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop
-         // необходимо компоненте кот. стоит выше <LoginReduxForm/> передать onSubmit={}
+         // необходимо компоненте кот. стоит выше Login - <LoginReduxForm onSubmit={onSubmit}/> передать onSubmit={}
          // error - общая ошибка сработает, когда например неправильный пароль
          <form onSubmit={handleSubmit}>
              {createField('email', 'Email', [required], Input)}

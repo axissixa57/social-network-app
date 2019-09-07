@@ -20,24 +20,17 @@ import {
 } from "../../redux/reducers/users-selectors";
 
 class UsersContainer extends React.Component {
-    // конструктор необязателен, props и так придут по умолчанию
-    // constructor(props) {
-    //     super(props);
-    // }
-
     // вызывается, когда jsx разметка отрисуется
     componentDidMount() {
         this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
-    }
+    };
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
-
         this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
-    }
+    };
 
     render() {
-        // console.log('render UserContainer');
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <Users
@@ -51,24 +44,12 @@ class UsersContainer extends React.Component {
                 followingInProgress={this.props.followingInProgress}
             />
         </>
-    }
+    };
 }
-
-// const mapStateToProps = (state) => {
-//     return {
-//         users: state.usersReducer.users,
-//         pageSize: state.usersReducer.pageSize,
-//         totalUsersCount: state.usersReducer.totalUsersCount,
-//         currentPage: state.usersReducer.currentPage,
-//         isFetching: state.usersReducer.isFetching,
-//         followingInProgress: state.usersReducer.followingInProgress
-//     };
-// };
 
 // mapStateToProps срабатывает всегда когда меняется state, но перерисовка комонента кот. связан со свойствами из mapStateToProps не перерисовывается, до тех пор пока
 // не измениться какое-то свойства внутри него. Идёт сравнение значений в этом объекте. Предыдущего с настоящим
 const mapStateToProps = (state) => {
-    // console.log('mapStateToProps UserContainer');
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),

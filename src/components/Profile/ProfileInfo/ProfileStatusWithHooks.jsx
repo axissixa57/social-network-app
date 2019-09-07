@@ -19,7 +19,7 @@ const ProfileStatusWithHooks = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false);
-        // отправляем на значение на сервер когда вышли из редактируемого мода
+        // отправляем значение на сервер когда вышли из редактируемого мода
         props.updateStatus(status);
     };
 

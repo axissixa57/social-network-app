@@ -46,12 +46,16 @@ export const profileAPI = {
 
 export const authAPI = {
     me() {
+        // https://social-network.samuraijs.com/docs#auth_me_get
+        // example {resultCode: 0, messages: [], data: {id: 2, email: 'blabla@bla.bla', login: 'samurai'}}
         return instance.get(`auth/me`)
     },
     login(email, password, rememberMe = false) {
         return instance.post(`auth/login`, {email, password, rememberMe});
     },
+    // https://social-network.samuraijs.com/docs#auth_login_delete
     logout() {
         return instance.delete(`auth/login`);
     },
 };
+
