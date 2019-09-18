@@ -1,27 +1,83 @@
-import * as axios from "axios";
+import axios from "axios";
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {
-        "API-KEY": 'f1ea0441-d702-44bf-808f-60ba98040921'
+class HttpService {
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl;
+        this.headers = {
+            'Content-Type': 'application/json; charset=UTF-8'
+        };
+
+        this.service = axios.create({
+            baseURL: this.baseUrl,
+            withCredentials: true
+        });
     }
-});
+
+    request({ method, url, data, headers }) {
+        return this.service.request({
+            method,
+            url,
+            responseType: 'json',
+            data,
+            headers: {...headers, ...this.headers}
+        })
+            .then(({ data }) => data);
+    }
+
+    get(url, headers = {}) {
+        return this.service.request({
+            method: 'get',
+            url,
+            data: null,
+            headers: {...headers, ...this.headers}
+        })
+            .then(({ data }) => data);
+    }
+
+    // url ='login', data = {username: "123", password: "123"}
+    post(url, data, headers = {}) {
+        return this.request({
+            method: 'post',
+            url,
+            data,
+            headers
+        });
+    }
+
+    put(url, data, headers = {}) {
+        return this.request({
+            method: 'put',
+            url,
+            data,
+            headers
+        });
+    }
+
+    delete(url, data, headers = {}) {
+        return this.request({
+            method: 'delete',
+            url,
+            data,
+            headers
+        });
+    }
+}
+
+const httpClient = new HttpService('http://127.0.0.1:3001/api/1.0/'); // process.env.API_URL
 
 export const usersAPI = {
     // идентично записи getUsers: getUsers()
     getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+        return httpClient.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(res => {
-                // передаём Promise.resolve дальше, если стоит return то мы можешь сколько угодно раз передавать значения
                 return res.data;
             });
     },
     follow(userId) {
-        return instance.post(`follow/${userId}`)
+        return httpClient.post(`follow/${userId}`)
     },
     unfollow(userId) {
-        return instance.delete(`follow/${userId}`)
+        return httpClient.delete(`follow/${userId}`)
     },
     getProfile(userId) {
         // если переносим метод, а некот. люди неосводемлены, можно сделать т.о.
@@ -32,25 +88,24 @@ export const usersAPI = {
 
 export const profileAPI = {
     getProfile(userId) {
-        return instance.get(`profile/${userId}`);
+        return httpClient.get(`profile/${userId}`);
     },
     getStatus(userId) {
-        return instance.get(`profile/status/${userId}`);
+        return httpClient.get(`profile/status/${userId}`);
     },
     updateStatus(status) {
-        // отправляем на сервер (req.body) - объект
-        return instance.put(`profile/status/`, {status: status});
+        return httpClient.put(`profile/status/`, {status: status});
     }
 };
 
 export const authAPI = {
     me() {
-        return instance.get(`auth/me`)
+        return httpClient.get(`auth/me`)
     },
     login(email, password, rememberMe = false) {
-        return instance.post(`auth/login`, {email, password, rememberMe});
+        return httpClient.post(`auth/login`, {email, password, rememberMe});
     },
     logout() {
-        return instance.delete(`auth/login`);
+        return httpClient.delete(`auth/login`);
     },
 };
