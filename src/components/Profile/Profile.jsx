@@ -10,7 +10,6 @@ const Profile = (props) => {
             <MyPostsContainer/>
         </div>
     )
-}
+};
 
 export default Profile;
-
