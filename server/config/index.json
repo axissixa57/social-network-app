@@ -1,8 +1,7 @@
 {
-  "database": "mongodb://localhost:27017/node-test",
-  "port": 3005,
+  "database": "mongodb://localhost:27017/scuffed-vk",
   "corsOptions": {
-    "origin": "http://localhost:3001",
+    "origin": "http://127.0.0.1:3010",
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "credentials": true
   },

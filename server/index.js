@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mongoose from 'mongoose';
 import express from 'express';
 
@@ -10,14 +11,15 @@ const app = express();
 
 middleware(app);
 
-app.use('/api', checkAuthentication, routes);
+app.use(routes);
+// app.use(checkAuthentication, routes);
 
-mongoose.connect(config.database, {useNewUrlParser: true})
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log('MongoDB Connection Succeeded.');
-        app.listen(config.port, () => {
+        app.listen(process.env.PORT, () => {
             console.log(
-                'Server is waiting for a connection... Open http://127.0.0.1:3001/ in your browser.'
+                `Server is waiting for a connection... Open http://127.0.0.1:${process.env.PORT} in your browser.`
             );
         });
     }).catch(err => console.log(`Error in DB connection : ${err}`));
