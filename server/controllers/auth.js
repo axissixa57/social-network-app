@@ -1,49 +1,97 @@
-import { User } from "../models/user";
-import {hashPassword} from "../lib/bcrypt";
+import {User} from "../models/user";
+import {comparePasswords, hashPassword} from "../lib/bcrypt";
 import {signToken} from "../lib/jwt";
 
-export const getUser = async (req, res) => {
-    const messages = [];
-    let user;
+export const getUser = (req, res) => {
+    const user = res.locals.loggedInUser;
+
+    if (!user) {
+        res.status(200).json({
+            resultCode: 1,
+            messages: ['You are not authorized'],
+            data: {}
+        });
+    } else {
+        res.status(200).json({
+            resultCode: 0,
+            messages: [],
+            data: {
+                id: user._id,
+                login: user.login,
+                email: user.email
+            }
+        });
+    }
+};
+
+export const login = async (req, res) => {
+    const response = {
+        resultCode: 0,
+        messages: [],
+        accessToken: ''
+    };
+
     try {
-        user = await User.findById(req.user.id);
-    } catch (err) {
-       messages.push('Not found');
+        const {email, password} = req.body;
+        const user = await User.findOne({email});
+        if (!user) {
+            response.resultCode = 1;
+            response.messages = ['Email does not exist'];
+            return res.status(200).json(response);
+        }
+        const validPassword = await comparePasswords(password, user.password);
+        if (!validPassword) {
+            response.resultCode = 1;
+            response.messages = ['Password is not correct'];
+            return res.status(200).json(response);
+        }
+        const accessToken = signToken({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
+        await User.findByIdAndUpdate(user._id, {accessToken});
+        response.accessToken = accessToken;
+    } catch (error) {
+        response.messages = [`${error}`];
     }
 
-    res.status(200).json({
+    res.status(200).json(response);
+};
+
+export const logout = async (req, res) => {
+    res.json({
         resultCode: 0,
-        messages,
-        data: user
+        messages: [],
     });
 };
 
-export const localAuthHandler = (req, res) => {
-    //  middleware из прошлого шага запише req.user данные благодаря passport,
-    if (req.user) {
-        const token = signToken(req.user);
-        res.cookie('auth', token);
-        res.send('Ok')
-    } else {
-        res.status(500).send('Send user please')
-    }
-};
-
-export const registerUser = async (req, res) => {
+export const register = async (req, res) => {
     try {
-        const data = req.body;
-        const userExists = await User.findOne({ email: data.email });
+        const {email, login, password} = req.body;
+
+        const userExists = await User.findOne({email});
         if (userExists) {
-            //res.status(409).send('User already exists');
-            res.json({messages: ['User already exists']})
+            res.status(200).json({
+                resultCode: 1,
+                messages: ['User already exists'],
+            });
         } else {
-            const user = new User({ email: data.email, password: await hashPassword(data.password)});
-            const savedUser = await user.save(); // вроде как в бд данные хранятся в объекте bson
-            const token = signToken(savedUser.toJSON()); // переоводит из bson в json и затем формируем токен
-            res.cookie('auth', token); // отправляем токен в куки под именем auth
-            res.send('Ok');
+            const hashedPassword = await hashPassword(password);
+            const newUser = new User({
+                email,
+                login,
+                password: hashedPassword,
+            });
+            const accessToken = signToken({userId: newUser._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
+            newUser.accessToken = accessToken;
+            await newUser.save();
+            res.status(200).json({
+                resultCode: 0,
+                messages: ['You have signed up successfully'],
+                accessToken
+            });
         }
-    } catch (err) {
-        res.status(404).send(err);
+    } catch (error) {
+        res.status(200).json({
+            resultCode: 1,
+            messages: [`${error}`]
+        });
     }
 };

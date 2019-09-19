@@ -7,6 +7,7 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/reducers/app";
@@ -35,6 +36,7 @@ class App extends Component {
                     <Route exact path='/dialogs' render={() => <DialogsContainer/>}/>
                     <Route path='/users' render={() => <UsersContainer/>}/>
                     <Route path='/login' render={() => <Login/>}/>
+                    <Route path='/register' render={() => <Register/>}/>
                 </div>
             </div>
         )
@@ -45,7 +47,7 @@ const mapStateToProps = (state) => {
     return {
         initialized: state.appReducer.initialized
     }
-}
+};
 
 // оборачиваем в hoc withRouter для корректной работы внутринних Routes
 export default compose(

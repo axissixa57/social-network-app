@@ -30,7 +30,7 @@ export const initializeApp = () => (dispatch) => {
         .then(() => {
             dispatch(initializedSuccess());
         });
-}
+};
 
 
 export default app;
