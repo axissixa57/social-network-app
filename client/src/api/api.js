@@ -1,79 +1,28 @@
-import axios from "axios";
+import * as axios from "axios";
 
-class HttpService {
-    constructor(baseUrl) {
-        this.baseUrl = baseUrl;
-        this.headers = {
-            'Content-Type': 'application/json; charset=UTF-8'
-        };
-
-        this.service = axios.create({
-            baseURL: this.baseUrl,
-            withCredentials: true
-        });
+const instance = axios.create({
+    // `withCredentials` indicates whether or not cross-site Access-Control requests should be made using credentials
+    withCredentials: true,
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    headers: {
+        "API-KEY": 'f1ea0441-d702-44bf-808f-60ba98040921'
     }
-
-    request({ method, url, data, headers }) {
-        return this.service.request({
-            method,
-            url,
-            responseType: 'json',
-            data,
-            headers: {...headers, ...this.headers}
-        })
-    }
-
-    get(url, headers = {}) {
-        return this.service.request({
-            method: 'get',
-            url,
-            data: null,
-            headers: {...headers, ...this.headers}
-        })
-    }
-
-    post(url, data, headers = {}) {
-        return this.request({
-            method: 'post',
-            url,
-            data,
-            headers: {...headers, ...this.headers}
-        });
-    }
-
-    put(url, data, headers = {}) {
-        return this.request({
-            method: 'put',
-            url,
-            data,
-            headers
-        });
-    }
-
-    delete(url, headers = {}) { // data,
-        return this.request({
-            method: 'delete',
-            url,
-            headers
-        });
-    }
-}
-
-const httpClient = new HttpService('http://127.0.0.1:3010/');
+});
 
 export const usersAPI = {
     // идентично записи getUsers: getUsers()
     getUsers(currentPage = 1, pageSize = 10) {
-        return httpClient.get(`users?page=${currentPage}&count=${pageSize}`)
+        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(res => {
+                // передаём Promise.resolve дальше, если стоит return то мы можешь сколько угодно раз передавать значения
                 return res.data;
             });
     },
     follow(userId) {
-        return httpClient.post(`follow/${userId}`)
+        return instance.post(`follow/${userId}`)
     },
     unfollow(userId) {
-        return httpClient.delete(`follow/${userId}`)
+        return instance.delete(`follow/${userId}`)
     },
     getProfile(userId) {
         // если переносим метод, а некот. люди неосводемлены, можно сделать т.о.
@@ -84,57 +33,110 @@ export const usersAPI = {
 
 export const profileAPI = {
     getProfile(userId) {
-        return httpClient.get(`profile/${userId}`);
+        return instance.get(`profile/${userId}`);
     },
     getStatus(userId) {
-        return httpClient.get(`profile/status/${userId}`);
+        return instance.get(`profile/status/${userId}`);
     },
     updateStatus(status) {
-        return httpClient.put(`profile/status/`, {status: status});
+        // отправляем на сервер (req.body) - объект
+        return instance.put(`profile/status/`, {status: status});
     }
 };
 
 export const authAPI = {
     me() {
-        return httpClient.get(`auth/me`, {'x-access-token':localStorage.getItem('x-access-token') || ''})
+        // https://social-network.samuraijs.com/docs#auth_me_get
+        // example {resultCode: 0, messages: [], data: {id: 2, email: 'blabla@bla.bla', login: 'samurai'}}
+        return instance.get(`auth/me`)
     },
     register(email, login, password) {
-        return httpClient.post(`auth/register`, {email, login, password});
+        return instance.post(`auth/register`, {email, login, password});
     },
     login(email, password, rememberMe = false) {
-        return httpClient.post(`auth/login`, {email, password, rememberMe}, {'x-access-token':localStorage.getItem('x-access-token') || ''});
+        return instance.post(`auth/login`, {email, password, rememberMe});
     },
     logout() {
-        return httpClient.delete(`auth/login`);
+        return instance.delete(`auth/login`);
     },
 };
 
-// import * as axios from "axios";
+// import axios from "axios";
 //
-// const instance = axios.create({
-//     // `withCredentials` indicates whether or not cross-site Access-Control requests should be made using credentials
-//     withCredentials: true,
-//     // baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-//     baseURL: 'http://127.0.0.1:3010/',
-//     headers: {
-//         "API-KEY": 'f1ea0441-d702-44bf-808f-60ba98040921'
+// class HttpService {
+//     constructor(baseUrl) {
+//         this.baseUrl = baseUrl;
+//         this.headers = {
+//             'Content-Type': 'application/json; charset=UTF-8'
+//         };
+//
+//         this.service = axios.create({
+//             baseURL: this.baseUrl,
+//             withCredentials: true
+//         });
 //     }
-// });
+//
+//     request({ method, url, data, headers }) {
+//         return this.service.request({
+//             method,
+//             url,
+//             responseType: 'json',
+//             data,
+//             headers: {...headers, ...this.headers}
+//         })
+//     }
+//
+//     get(url, headers = {}) {
+//         return this.service.request({
+//             method: 'get',
+//             url,
+//             data: null,
+//             headers: {...headers, ...this.headers}
+//         })
+//     }
+//
+//     post(url, data, headers = {}) {
+//         return this.request({
+//             method: 'post',
+//             url,
+//             data,
+//             headers: {...headers, ...this.headers}
+//         });
+//     }
+//
+//     put(url, data, headers = {}) {
+//         return this.request({
+//             method: 'put',
+//             url,
+//             data,
+//             headers
+//         });
+//     }
+//
+//     delete(url, headers = {}) { // data,
+//         return this.request({
+//             method: 'delete',
+//             url,
+//             headers
+//         });
+//     }
+// }
+//
+// const httpClient = new HttpService('https://social-network.samuraijs.com/api/1.0/');
 //
 // export const usersAPI = {
 //     // идентично записи getUsers: getUsers()
 //     getUsers(currentPage = 1, pageSize = 10) {
-//         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+//         return httpClient.get(`users?page=${currentPage}&count=${pageSize}`)
 //             .then(res => {
-//                 // передаём Promise.resolve дальше, если стоит return то мы можешь сколько угодно раз передавать значения
 //                 return res.data;
 //             });
 //     },
 //     follow(userId) {
-//         return instance.post(`follow/${userId}`)
+//         return httpClient.post(`follow/${userId}`)
 //     },
 //     unfollow(userId) {
-//         return instance.delete(`follow/${userId}`)
+//         return httpClient.delete(`follow/${userId}`)
 //     },
 //     getProfile(userId) {
 //         // если переносим метод, а некот. люди неосводемлены, можно сделать т.о.
@@ -145,30 +147,27 @@ export const authAPI = {
 //
 // export const profileAPI = {
 //     getProfile(userId) {
-//         return instance.get(`profile/${userId}`);
+//         return httpClient.get(`profile/${userId}`);
 //     },
 //     getStatus(userId) {
-//         return instance.get(`profile/status/${userId}`);
+//         return httpClient.get(`profile/status/${userId}`);
 //     },
 //     updateStatus(status) {
-//         // отправляем на сервер (req.body) - объект
-//         return instance.put(`profile/status/`, {status: status});
+//         return httpClient.put(`profile/status/`, {status: status});
 //     }
 // };
 //
 // export const authAPI = {
 //     me() {
-//         // https://social-network.samuraijs.com/docs#auth_me_get
-//         // example {resultCode: 0, messages: [], data: {id: 2, email: 'blabla@bla.bla', login: 'samurai'}}
-//         return instance.get(`auth/me`)
+//         return httpClient.get(`auth/me`, {'x-access-token':localStorage.getItem('x-access-token') || ''})
 //     },
 //     register(email, login, password) {
-//         return instance.post(`auth/register`, {email, login, password});
+//         return httpClient.post(`auth/register`, {email, login, password});
 //     },
 //     login(email, password, rememberMe = false) {
-//         return instance.post(`auth/login`, {email, password, rememberMe});
+//         return httpClient.post(`auth/login`, {email, password, rememberMe}, {'x-access-token':localStorage.getItem('x-access-token') || ''});
 //     },
 //     logout() {
-//         return instance.delete(`auth/login`);
+//         return httpClient.delete(`auth/login`);
 //     },
 // };
