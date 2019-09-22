@@ -1,4 +1,8 @@
-App hosted on gh-pages: [Take a look](https://github.com/facebook/create-react-app)
+App hosted on gh-pages: [Take a look](https://axissixa57.github.io/social-network-app/)
+
+For test app:<br>
+Email: free@samuraijs.com<br>
+Password: free
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
