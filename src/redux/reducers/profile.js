@@ -1,4 +1,4 @@
-import {ADD_POST, DELETE_POST, SET_STATUS, SET_USER_PROFILE} from "../actions/profile";
+import {ADD_POST, DELETE_POST, SET_STATUS, SET_USER_PROFILE, SAVE_PHOTO_SUCCESS} from "../actions/profile";
 
 let initialState = {
     posts: [
@@ -41,6 +41,12 @@ const profile = (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.filter(p => p.id != action.postId)
+            };
+        }
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
             };
         }
         default:
