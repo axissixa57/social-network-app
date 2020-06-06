@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React from 'react'; // Если заменим Component на PureComponent не придётся писать логику для shouldComponentUpdate, т.к. там уже всё прописано
 import object from './MyPosts.module.css';
 import Post from './Post/Post';
 import {Field, reduxForm} from "redux-form";
@@ -9,13 +8,14 @@ import {Textarea} from "../../../common/FormsControls/FormsControls";
 // вынесено в отдельную переменную из-за ошибки зацикливания
 const maxLength10 = maxLengthCreator(10);
 
-const MyPosts = (props) => {
+const MyPosts = props => {
+    console.log('RENDER Myposts');
     const postsElements =
         props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     const addPostMessage = (value) => {
         props.addPost(value.newPostElement);
-    }
+    };
 
     return (
         <div className={`${object.postsBlock}`}>

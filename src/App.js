@@ -3,8 +3,6 @@ import {Route, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import {compose} from "redux";
 
-import {initializeApp} from "./redux/reducers/app";
-
 import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
@@ -13,6 +11,8 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Preloader from "./components/common/Preloader/Preloader";
+
+import {initializeApp} from "./redux/reducers/app";
 import {withSuspense} from "./hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
@@ -20,7 +20,7 @@ const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileCo
 
 class App extends Component {
     componentDidMount() {
-        this.props.initializeApp();
+        this.props.initializeApp(); // Is current user authorized
     }
 
     render() {
@@ -54,8 +54,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-// оборачиваем в hoc withRouter для корректной работы внутринних Routes
+// оборачиваем в hoc withRouter для корректной работы внутринних Routes (прокидываются доп. пропсы типо match,locate,history. Будет ошибка если не оберуть компоненту <App/> - BrowserRouter-ом
 export default compose(
-    connect(mapStateToProps, {initializeApp}),
+    connect(mapStateToProps, {initializeApp}), // initializeApp: () => dispatch(initializeApp())
     withRouter
 )(App);
