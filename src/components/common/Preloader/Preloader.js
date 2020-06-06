@@ -3,6 +3,6 @@ import React from "react";
 
 const Preloader = () => {
     return <img src={preloader} alt=""/>;
-}
+};
 
 export default Preloader;

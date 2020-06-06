@@ -27,15 +27,13 @@ const ProfileStatusWithHooks = (props) => {
 
     return (
         <div className={styles.pageStatus}>
-            {/*true && 1 - покажет 1*/}
-            { !editMode &&
-                <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || ''}</span>
-                </div>
+            {!editMode &&
+            <div>
+                <span onDoubleClick={activateEditMode}>{props.status || ''}</span>
+            </div>
             }
             {editMode &&
             <div>
-                {/*onBlur, когда фокус уходит с элемента*/}
                 <input autoFocus={true} onBlur={deactivateEditMode} onChange={onStatusChange} value={status}/>
             </div>
             }

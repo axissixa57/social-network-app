@@ -43,7 +43,7 @@ class ProfileContainer extends React.Component {
             profile={this.props.profile}
             status={this.props.status}
             updateStatus={this.props.updateStatus}
-            isOwner={!!this.props.match.params.userId} // из псевдоистины в булевое значение
+            isOwner={!!this.props.match.params.userId || !!this.props.authorizedUserID} // из псевдоистины в булевое значение
             savePhoto={this.props.savePhoto}
         />
     }

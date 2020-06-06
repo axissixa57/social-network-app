@@ -33,7 +33,7 @@ export const register = (email, login, password) => (dispatch) => {
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setIsRegister());
-                localStorage.setItem('x-access-token', response.data.accessToken);
+                // localStorage.setItem('x-access-token', response.data.accessToken);
             } else {
                 const message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
                 dispatch(stopSubmit('register', {_error: message}));
@@ -45,7 +45,7 @@ export const login = (email, password, rememberMe) => (dispatch) => {
     authAPI.login(email, password, rememberMe)
         .then(response => {
             if (response.data.resultCode === 0) {
-                localStorage.setItem('x-access-token', response.data.accessToken);
+                // localStorage.setItem('x-access-token', response.data.accessToken);
                 dispatch(getAuthUserData());
             } else {
                 const message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
