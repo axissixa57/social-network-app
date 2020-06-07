@@ -1,5 +1,10 @@
+import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
+
 import { usersAPI } from "../../api/api";
 import { UserType } from "../../types/types";
+import { AppStateType } from "../store";
+
 
 export const SET_USERS = "SET_USERS";
 export const FOLLOW = "ADD-FOLLOW";
@@ -38,6 +43,19 @@ type ToggleFollowingProgressActionType = {
   isFetching: boolean;
   userId: number;
 };
+
+export type ActionsTypes =
+  | SetUsersActionType
+  | FollowActionType
+  | UnfollowActionType
+  | SetCurrentPageActionType
+  | SetTotalUsersCountActionType
+  | ToggleIsFetchingActionType
+  | ToggleFollowingProgressActionType;
+
+type GetStateType = () => AppStateType;
+type DispatchType = Dispatch<ActionsTypes>;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 // action creators
 export const setUsers = (users: Array<UserType>): SetUsersActionType => ({
@@ -82,8 +100,8 @@ export const toggleFollowingProgress = (
 // thunks
 // redux store (а именно thunkMiddleware) запустит вложенную ф-цию и закинет dispatch, а параметры с внешней ф-ции придут через замыкание
 // store.dispatch(thunk) -> thunkMiddleware -> store.dispatch(actions) -> reducers -> new state -> rerenderComponent
-export const getUsersThunkCreator = (page: number, pageSize: number) => {
-  return async (dispatch: any) => {
+export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType => {
+  return async (dispatch: DispatchType, ) => {
     // когда данных нет, отправляем true, соответственно preloader будет грузиться на стр. (UserContainer)
     dispatch(toggleIsFetching(true));
     // dispatch(setCurrentPage(page)); ???
@@ -95,11 +113,11 @@ export const getUsersThunkCreator = (page: number, pageSize: number) => {
   };
 };
 
-const followUnfollowFlow = async (
-  dispatch: any,
+const _followUnfollowFlow = async (
+  dispatch: DispatchType,
   userId: number,
   apiMethod: any,
-  actionCreator: any
+  actionCreator: (userId: number) => FollowActionType | UnfollowActionType
 ) => {
   dispatch(toggleFollowingProgress(true, userId));
 
@@ -113,8 +131,8 @@ const followUnfollowFlow = async (
 };
 
 export const followThunkCreator = (userId: number) => {
-  return async (dispatch: any) => {
-    await followUnfollowFlow(
+  return async (dispatch: DispatchType) => {
+    await _followUnfollowFlow(
       dispatch,
       userId,
       usersAPI.follow.bind(usersAPI),
@@ -124,8 +142,8 @@ export const followThunkCreator = (userId: number) => {
 };
 
 export const unfollowThunkCreator = (userId: number) => {
-  return async (dispatch: any) => {
-    await followUnfollowFlow(
+  return async (dispatch: DispatchType) => {
+    await _followUnfollowFlow(
       dispatch,
       userId,
       usersAPI.unfollow.bind(usersAPI),

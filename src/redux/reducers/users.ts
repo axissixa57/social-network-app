@@ -6,6 +6,7 @@ import {
   TOGGLE_IS_FETCHING,
   UNFOLLOW,
   TOGGLE_IS_FOLLOWING_PROGRESS,
+  ActionsTypes,
 } from "../actions/users";
 import { updateObjectInArray } from "../../utils/object-helpers";
 import { UserType } from "../../types/types";
@@ -18,15 +19,13 @@ const initialState = {
   isFetching: false,
   // массив нужен чтобы хранить id пользователя на кот. подписываем / отписываемся, чтобы disable только 1 кнопку
   followingInProgress: [] as Array<number>,
-  fake: 10,
 };
 
 type InitialState = typeof initialState;
 
-const users = (state = initialState, action: any): InitialState => {
+
+const users = (state = initialState, action: ActionsTypes): InitialState => {
   switch (action.type) {
-    case "FAKE":
-      return { ...state, fake: state.fake + 1 };
     case SET_USERS: {
       return {
         ...state,
