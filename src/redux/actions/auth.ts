@@ -1,4 +1,4 @@
-import { authAPI } from "../../api/api";
+import { authAPI, ResultCodesEnum } from "../../api/api";
 import { stopSubmit } from "redux-form";
 
 export const SET_USER_DATA = "SET_USER_DATA";
@@ -53,10 +53,10 @@ export const register = (email: string, login: string, password: string) => (
 };
 
 export const getAuthUserData = () => async (dispatch: any) => {
-  const response = await authAPI.me();
+  const meData = await authAPI.me();
 
-  if (response.data.resultCode === 0) {
-    let { id, login, email } = response.data.data;
+  if (meData.resultCode === ResultCodesEnum.Success) {
+    let { id, login, email } = meData.data;
     dispatch(setAuthUserData(id, email, login, true));
   }
 };
@@ -66,17 +66,14 @@ export const login = (
   password: string,
   rememberMe: boolean
 ) => async (dispatch: any) => {
-  const response = await authAPI.login(email, password, rememberMe);
+  const data = await authAPI.login(email, password, rememberMe);
 
-  if (response.data.resultCode === 0) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(getAuthUserData());
   } else {
     // специальный action (actionCreator) для обработки ошибок, например если неправильный пароль
     // _error специальное свойство для отслеживания общих ошибок
-    const message =
-      response.data.messages.length > 0
-        ? response.data.messages[0]
-        : "Some error";
+    const message = data.messages.length > 0 ? data.messages[0] : "Some error";
     dispatch(stopSubmit("login", { _error: message })); // передаётся название определённой формы, кот. будет stop-ать
   }
 };
