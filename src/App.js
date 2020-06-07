@@ -39,7 +39,7 @@ class App extends Component {
                     <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
                     {/* exact необоходит для точного совпадения, чтобы при клике /dialogs/1 не подгружался компонент Dialogs */}
                     <Route exact path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
+                    <Route path='/users' render={() => <UsersContainer pageTitle="pageTitle to check OwnPropsType"/>}/>
                     <Route path='/login' render={() => <Login/>}/>
                     <Route path='/register' render={() => <Register/>}/>
                 </div>

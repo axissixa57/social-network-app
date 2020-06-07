@@ -1,6 +1,7 @@
 import {createSelector} from "reselect";
+import { AppStateType } from "../store";
 
-export const getUsersSelector = (state) => {
+export const getUsersSelector = (state: AppStateType) => {
     return state.usersReducer.users;
 };
 
@@ -11,22 +12,22 @@ export const getUsers = createSelector(getUsersSelector, (users) => {
     return users.filter(u => true);
 });
 
-export const getPageSize = (state) => {
+export const getPageSize = (state: AppStateType) => {
     return state.usersReducer.pageSize;
 };
 
-export const getTotalUsersCount = (state) => {
+export const getTotalUsersCount = (state: AppStateType) => {
     return state.usersReducer.totalUsersCount;
 };
 
-export const getCurrentPage = (state) => {
+export const getCurrentPage = (state: AppStateType) => {
     return state.usersReducer.currentPage;
 };
 
-export const getIsFetching = (state) => {
+export const getIsFetching = (state: AppStateType) => {
     return state.usersReducer.isFetching;
 };
 
-export const getFollowingInProgress = (state) => {
+export const getFollowingInProgress = (state: AppStateType) => {
     return state.usersReducer.followingInProgress;
 };

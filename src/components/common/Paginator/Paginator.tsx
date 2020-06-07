@@ -3,11 +3,19 @@ import classNames from "classnames";
 
 import styles from './Paginator.module.css'
 
-const Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
+type PropsType = {
+    totalItemsCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+    portionSize?: number
+}
+
+const Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
     // если число пользователей например 19, а нужна выводить на странице 5 то будет 3 стр, с Math.ceil будет 4, т.к. округляем в большую сторону
     const pagesCount = Math.ceil(totalItemsCount / pageSize); // число пользователей / на кол-во отображаемых на странице = кол-во всего страниц в пагинации
 
-    const pages = [];
+    const pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
@@ -27,7 +35,7 @@ const Paginator = ({totalItemsCount, pageSize, currentPage, onPageChanged, porti
             PREV
         </button>}
 
-        {pages
+        {pages 
             .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
             .map((p) => {
                 return <span

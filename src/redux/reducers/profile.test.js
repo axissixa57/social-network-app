@@ -1,5 +1,3 @@
-import React from "react";
-
 import profile from "./profile";
 import {addPostActionCreator, deletePost} from "../actions/profile";
 

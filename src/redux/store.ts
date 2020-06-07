@@ -20,6 +20,11 @@ const rootReducer = combineReducers({
     appReducer: app
 });
 
+type RootReducerType = typeof rootReducer; // (state: AppStateType) => AppStateType - это то что примерно вернёт от typeof rootReducer
+
+export type AppStateType = ReturnType<RootReducerType> // определит что возращает ф-ция от typeof rootReducer и засунет в тип, т.е. объект state
+
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const middlewares = [thunkMiddleware];

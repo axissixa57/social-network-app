@@ -5,35 +5,7 @@ import {
   SET_USER_PROFILE,
   SAVE_PHOTO_SUCCESS,
 } from "../actions/profile";
-
-type PostType = {
-  id: number;
-  message: string;
-  likesCount: number;
-};
-type ContactType = {
-  facebook: string;
-  website: string;
-  vk: string;
-  twitter: string;
-  instagram: string;
-  youtube: string;
-  github: string;
-  mainLink: string;
-};
-export type PhotosType = {
-  small: string;
-  large: string;
-};
-export type ProfileType = {
-  userId: number;
-  lookingForAJob: boolean;
-  lookingForAJobDescription: string;
-  aboutMe: string;
-  contacts: ContactType;
-  fullName: string;
-  photos: PhotosType;
-};
+import { ProfileType, PostType } from "../../types/types";
 
 let initialState = {
   posts: [
