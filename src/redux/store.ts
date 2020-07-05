@@ -1,5 +1,11 @@
-import { applyMiddleware, combineReducers, createStore, compose } from "redux";
-import thunkMiddleware from "redux-thunk";
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+  compose,
+  Action,
+} from "redux";
+import thunkMiddleware, { ThunkAction } from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
 
 import profile from "./reducers/profile";
@@ -29,6 +35,11 @@ type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
 export type InferActionsTypes<
   T extends { [key: string]: (...args: any[]) => any } // огрничение говорит о том что T - это объект в кот. есть ключ и обязаьельное значение ф-ция
 > = ReturnType<PropertiesTypes<T>>;
+
+export type BaseThunkType<
+  A extends Action = Action,
+  R = Promise<void>
+> = ThunkAction<R, AppStateType, unknown, A>;
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

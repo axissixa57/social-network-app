@@ -1,13 +1,5 @@
-import { SEND_MESSAGE } from "../actions/dialogs";
-
-type DialogType = {
-  id: number;
-  name: string;
-};
-type MessageType = {
-  id: number;
-  message: string;
-};
+import { ActionsType } from "../actions/dialogs";
+import { DialogType, MessageType } from "../../types/types";
 
 const initialState = {
   dialogs: [
@@ -29,9 +21,9 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogs = (state = initialState, action: any): InitialStateType => {
+const dialogs = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case SEND_MESSAGE: {
+    case "SEND_MESSAGE": {
       const body = action.newMessageBody;
       // делаем копию того, что будем менять
       return {

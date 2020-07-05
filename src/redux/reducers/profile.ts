@@ -1,11 +1,5 @@
-import {
-  ADD_POST,
-  DELETE_POST,
-  SET_STATUS,
-  SET_USER_PROFILE,
-  SAVE_PHOTO_SUCCESS,
-} from "../actions/profile";
 import { ProfileType, PostType } from "../../types/types";
+import { ActionsType } from "../actions/profile";
 
 let initialState = {
   posts: [
@@ -20,9 +14,9 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const profile = (state = initialState, action: any): InitialStateType => {
+const profile = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case ADD_POST: {
+    case "ADD_POST": {
       const newPost = {
         id: 5,
         message: action.newPostText,
@@ -34,25 +28,25 @@ const profile = (state = initialState, action: any): InitialStateType => {
         posts: [...state.posts, newPost],
       };
     }
-    case SET_USER_PROFILE: {
+    case "SET_USER_PROFILE": {
       return {
         ...state,
         profile: action.profile,
       };
     }
-    case SET_STATUS: {
+    case "SET_STATUS": {
       return {
         ...state,
         status: action.status,
       };
     }
-    case DELETE_POST: {
+    case "DELETE_POST": {
       return {
         ...state,
         posts: state.posts.filter((p) => p.id != action.postId),
       };
     }
-    case SAVE_PHOTO_SUCCESS: {
+    case "SAVE_PHOTO_SUCCESS": {
       return {
         ...state,
         profile: { ...state.profile, photos: action.photos } as ProfileType,

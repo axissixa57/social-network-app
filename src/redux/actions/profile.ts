@@ -1,81 +1,66 @@
-import { profileAPI, usersAPI } from "../../api/api";
+import { profileAPI } from "../../api/profile-api";
+import { usersAPI } from "../../api/users-api";
 import { ProfileType, PhotosType } from "../../types/types";
+import { InferActionsTypes, BaseThunkType } from "../store";
 
-export const ADD_POST = "ADD-POST";
-export const SET_USER_PROFILE = "SET_USER_PROFILE";
-export const SET_STATUS = "SET_STATUS";
-export const DELETE_POST = "DELETE_POST";
-export const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
+export type ActionsType = InferActionsTypes<typeof actions>;
+type ThunkType = BaseThunkType<ActionsType>;
 
-type AddPostActionCreatorType = {
-  type: typeof ADD_POST;
-  newPostText: string;
-};
-type SetUserProfileType = {
-  type: typeof SET_USER_PROFILE;
-  profile: ProfileType;
-};
-type SetStatusType = {
-  type: typeof SET_STATUS;
-  status: string;
-};
-type DeletePostType = {
-  type: typeof DELETE_POST;
-  postId: number;
-};
-type SavePhotoSuccessType = {
-  type: typeof SAVE_PHOTO_SUCCESS;
-  photos: PhotosType;
+export const actions = {
+  addPostActionCreator: (text: string) =>
+    ({
+      type: "ADD_POST",
+      newPostText: text,
+    } as const),
+  setUserProfile: (profile: ProfileType) =>
+    ({
+      type: "SET_USER_PROFILE",
+      profile,
+    } as const),
+  setStatus: (status: string) =>
+    ({
+      type: "SET_STATUS",
+      status,
+    } as const),
+  // для тестов
+  deletePost: (postId: number) =>
+    ({
+      type: "DELETE_POST",
+      postId,
+    } as const),
+  savePhotoSuccess: (photos: PhotosType) =>
+    ({
+      type: "SAVE_PHOTO_SUCCESS",
+      photos,
+    } as const),
 };
 
-export const addPostActionCreator = (
-  text: string
-): AddPostActionCreatorType => ({
-  type: ADD_POST,
-  newPostText: text,
-});
-export const setUserProfile = (profile: ProfileType): SetUserProfileType => ({
-  type: SET_USER_PROFILE,
-  profile,
-});
-export const setStatus = (status: string): SetStatusType => ({
-  type: SET_STATUS,
-  status,
-});
-// для тестов
-export const deletePost = (postId: number): DeletePostType => ({
-  type: DELETE_POST,
-  postId,
-});
-export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({
-  type: SAVE_PHOTO_SUCCESS,
-  photos,
-});
-
-export const getUserProfile = (userId: number) => async (dispatch: any) => {
+export const getUserProfile = (userId: number): ThunkType => async (
+  dispatch
+) => {
   const response = await usersAPI.getProfile(userId);
 
-  dispatch(setUserProfile(response.data));
+  dispatch(actions.setUserProfile(response));
 };
 
-export const getStatus = (userId: number) => async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => async (dispatch) => {
   const response = await profileAPI.getStatus(userId);
   // response.data придёт string вместо obj
-  dispatch(setStatus(response.data));
+  dispatch(actions.setStatus(response));
 };
 
-export const savePhoto = (file: any) => async (dispatch: any) => {
+export const savePhoto = (file: File): ThunkType => async (dispatch) => {
   const response = await profileAPI.savePhoto(file);
 
-  if (response.data.resultCode === 0) {
-    dispatch(savePhotoSuccess(response.data.data.photos));
+  if (response.resultCode === 0) {
+    dispatch(actions.savePhotoSuccess(response.data.photos));
   }
 };
 
-export const updateStatus = (status: string) => async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => async (dispatch) => {
   const response = await profileAPI.updateStatus(status);
 
-  if (response.data.resultCode === 0) {
-    dispatch(setStatus(status));
+  if (response.resultCode === 0) {
+    dispatch(actions.setStatus(status));
   }
 };

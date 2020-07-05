@@ -1,20 +1,12 @@
 import { Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
-
-import { usersAPI } from "../../api/api";
+import { usersAPI } from "../../api/users-api";
 import { UserType } from "../../types/types";
-import { AppStateType, InferActionsTypes } from "../store";
+import { InferActionsTypes, BaseThunkType } from "../store";
 
 export type ActionsTypes = InferActionsTypes<typeof actions>;
 
-type GetStateType = () => AppStateType;
 type DispatchType = Dispatch<ActionsTypes>;
-type ThunkType = ThunkAction<
-  Promise<void>,
-  AppStateType,
-  unknown,
-  ActionsTypes
->;
+type ThunkType = BaseThunkType<ActionsTypes>;
 
 export const actions = {
   follow: (userId: number) =>
@@ -47,10 +39,7 @@ export const actions = {
       type: "TOGGLE_IS_FETCHING",
       isFetching,
     } as const),
-  toggleFollowingProgress: (
-    isFetching: boolean,
-    userId: number
-  ) =>
+  toggleFollowingProgress: (isFetching: boolean, userId: number) =>
     ({
       type: "TOGGLE_IS_FOLLOWING_PROGRESS",
       isFetching,

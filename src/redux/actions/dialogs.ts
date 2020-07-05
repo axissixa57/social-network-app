@@ -1,11 +1,11 @@
-export const SEND_MESSAGE = "SEND_MESSAGE";
+import { InferActionsTypes } from "../store";
 
-type SendMessageCreatorActionType = {
-    type: typeof SEND_MESSAGE,
-    newMessageBody: string
-}
+export type ActionsType = InferActionsTypes<typeof actions>;
 
-export const sendMessageCreator = (newMessageBody: string): SendMessageCreatorActionType => ({
-  type: SEND_MESSAGE,
-  newMessageBody,
-});
+export const actions = {
+  sendMessageCreator: (newMessageBody: string) =>
+    ({
+      type: "SEND_MESSAGE",
+      newMessageBody,
+    } as const),
+};
