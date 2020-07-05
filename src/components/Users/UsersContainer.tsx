@@ -3,13 +3,10 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 
 import {
-  follow,
-  unfollow,
-  setCurrentPage,
-  toggleFollowingProgress,
   getUsersThunkCreator,
   followThunkCreator,
   unfollowThunkCreator,
+  actions,
 } from "../../redux/actions/users";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -101,10 +98,7 @@ export default compose(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
     mapStateToProps,
     {
-      follow,
-      unfollow,
-      setCurrentPage,
-      toggleFollowingProgress,
+      ...actions,
       getUsersThunkCreator,
       followThunkCreator,
       unfollowThunkCreator,

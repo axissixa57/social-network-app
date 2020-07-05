@@ -1,13 +1,4 @@
-import {
-  FOLLOW,
-  SET_CURRENT_PAGE,
-  SET_TOTAL_USERS_COUNT,
-  SET_USERS,
-  TOGGLE_IS_FETCHING,
-  UNFOLLOW,
-  TOGGLE_IS_FOLLOWING_PROGRESS,
-  ActionsTypes,
-} from "../actions/users";
+import { ActionsTypes } from "../actions/users";
 import { updateObjectInArray } from "../../utils/object-helpers";
 import { UserType } from "../../types/types";
 
@@ -23,16 +14,15 @@ const initialState = {
 
 type InitialState = typeof initialState;
 
-
 const users = (state = initialState, action: ActionsTypes): InitialState => {
   switch (action.type) {
-    case SET_USERS: {
+    case "SET_USERS": {
       return {
         ...state,
         users: action.users,
       };
     }
-    case FOLLOW: {
+    case "FOLLOW": {
       return {
         ...state,
         users: updateObjectInArray(state.users, action.userId, "id", {
@@ -40,7 +30,7 @@ const users = (state = initialState, action: ActionsTypes): InitialState => {
         }),
       };
     }
-    case UNFOLLOW: {
+    case "UNFOLLOW": {
       return {
         ...state,
         users: updateObjectInArray(state.users, action.userId, "id", {
@@ -48,25 +38,25 @@ const users = (state = initialState, action: ActionsTypes): InitialState => {
         }),
       };
     }
-    case SET_CURRENT_PAGE: {
+    case "SET_CURRENT_PAGE": {
       return {
         ...state,
         currentPage: action.currentPage,
       };
     }
-    case SET_TOTAL_USERS_COUNT: {
+    case "SET_TOTAL_USERS_COUNT": {
       return {
         ...state,
         totalUsersCount: action.count,
       };
     }
-    case TOGGLE_IS_FETCHING: {
+    case "TOGGLE_IS_FETCHING": {
       return {
         ...state,
         isFetching: action.isFetching,
       };
     }
-    case TOGGLE_IS_FOLLOWING_PROGRESS: {
+    case "TOGGLE_IS_FOLLOWING_PROGRESS": {
       return {
         ...state,
         followingInProgress: action.isFetching
