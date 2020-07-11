@@ -30,11 +30,17 @@ type RootReducerType = typeof rootReducer; // (state: AppStateType) => AppStateT
 
 export type AppStateType = ReturnType<RootReducerType>; // определит что возращает ф-ция от typeof rootReducer и засунет в тип, т.е. объект state
 
-type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
+// ==================================== вариант 1 ====================================
+// type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
+//
+// export type InferActionsTypes<
+//   T extends { [key: string]: (...args: any[]) => any } // огрничение говорит о том что T - это объект в кот. есть ключ и обязаьельное значение ф-ция
+// > = ReturnType<PropertiesTypes<T>>;
+// ==================================== вариант 1 ====================================
 
-export type InferActionsTypes<
-  T extends { [key: string]: (...args: any[]) => any } // огрничение говорит о том что T - это объект в кот. есть ключ и обязаьельное значение ф-ция
-> = ReturnType<PropertiesTypes<T>>;
+// ==================================== вариант 2 ====================================
+export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never;
+// ==================================== вариант 2 ====================================
 
 export type BaseThunkType<
   A extends Action = Action,

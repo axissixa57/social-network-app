@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { usersAPI } from "../../api/users-api";
 import { UserType } from "../../types/types";
 import { InferActionsTypes, BaseThunkType } from "../store";
+import { APIResponseType } from "../../api/api";
 
 export type ActionsTypes = InferActionsTypes<typeof actions>;
 
@@ -69,14 +70,14 @@ export const getUsersThunkCreator = (
 const _followUnfollowFlow = async (
   dispatch: DispatchType,
   userId: number,
-  apiMethod: any,
+  apiMethod: (userId: number) => Promise<APIResponseType>,
   actionCreator: (userId: number) => ActionsTypes
 ) => {
   dispatch(actions.toggleFollowingProgress(true, userId));
 
   const response = await apiMethod(userId);
   // если на сервере (в бд) есть такой пользователь (либо нет ошибок) то подписываемся/отписываемся на пользователя
-  if (response.data.resultCode === 0) {
+  if (response.resultCode === 0) {
     dispatch(actionCreator(userId));
   }
 

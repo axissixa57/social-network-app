@@ -19,7 +19,7 @@ export type LoginFormValuesType = {
   password: string;
   email: string;
 };
-type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>; // Extract - говорит о том что забирёт то значение, кот. есть и влевой части и вправой, в данном случае string, т.к. keyof может вернуть помимо string ещё symbol и number
+export type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>; // Extract - говорит о том что забирёт то значение, кот. есть и влевой части и вправой, в данном случае string, т.к. keyof может вернуть помимо string ещё symbol и number
 
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({ // таким образом прокидываем пропсы кот. необходимы redux-form (<InjectedFormProps>) + докидываем наши пропсы - <InjectedFormProps<LoginFormValuesType>>. с видоса можно ещё так <InjectedFormProps<LoginFormValuesType, {captchaUrl: string | null}> & {captchaUrl: string | null}> - <InjectedFormProps<LoginFormValuesType, {captchaUrl: string | null}> - доп. данные для самой редакс форма + & {captchaUrl: string | null} - для самой компоненты
   handleSubmit,

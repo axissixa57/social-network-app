@@ -98,11 +98,10 @@ export default compose(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
     mapStateToProps,
     {
-      ...actions,
       getUsersThunkCreator,
       followThunkCreator,
       unfollowThunkCreator,
+      ...actions,
     }
-  ),
-  withAuthRedirect
+  )
 )(UsersContainer);
