@@ -10,9 +10,14 @@ const initialState = {
   isFetching: false,
   // массив нужен чтобы хранить id пользователя на кот. подписываем / отписываемся, чтобы disable только 1 кнопку
   followingInProgress: [] as Array<number>,
+  filter: {
+    term: "",
+    friend: null as null | boolean,
+  },
 };
 
 type InitialState = typeof initialState;
+export type FilterType = typeof initialState.filter
 
 const users = (state = initialState, action: ActionsTypes): InitialState => {
   switch (action.type) {
@@ -55,6 +60,9 @@ const users = (state = initialState, action: ActionsTypes): InitialState => {
         ...state,
         isFetching: action.isFetching,
       };
+    }
+    case "SN/USERS/SET_FILTER": {
+      return { ...state, filter: action.payload };
     }
     case "TOGGLE_IS_FOLLOWING_PROGRESS": {
       return {

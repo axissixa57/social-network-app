@@ -3,6 +3,7 @@ import { usersAPI } from "../../api/users-api";
 import { UserType } from "../../types/types";
 import { InferActionsTypes, BaseThunkType } from "../store";
 import { APIResponseType } from "../../api/api";
+import { FilterType } from "../reducers/users";
 
 export type ActionsTypes = InferActionsTypes<typeof actions>;
 
@@ -30,6 +31,8 @@ export const actions = {
       type: "SET_CURRENT_PAGE",
       currentPage,
     } as const),
+  setFilter: (filter: FilterType) =>
+    ({ type: "SN/USERS/SET_FILTER", payload: filter } as const),
   setUsersTotalCount: (totalUsersCount: number) =>
     ({
       type: "SET_TOTAL_USERS_COUNT",
@@ -53,13 +56,21 @@ export const actions = {
 // store.dispatch(thunk) -> thunkMiddleware -> store.dispatch(actions) -> reducers -> new state -> rerenderComponent
 export const getUsersThunkCreator = (
   page: number,
-  pageSize: number
+  pageSize: number,
+  filter: FilterType
 ): ThunkType => {
   return async (dispatch: DispatchType) => {
     // когда данных нет, отправляем true, соответственно preloader будет грузиться на стр. (UserContainer)
     dispatch(actions.toggleIsFetching(true));
-    // dispatch(setCurrentPage(page)); ???
-    const data = await usersAPI.getUsers(page, pageSize);
+    dispatch(actions.setCurrentPage(page));
+    dispatch(actions.setFilter(filter));
+
+    const data = await usersAPI.getUsers(
+      page,
+      pageSize,
+      filter.term,
+      filter.friend
+    );
 
     dispatch(actions.toggleIsFetching(false));
     dispatch(actions.setUsers(data.items));

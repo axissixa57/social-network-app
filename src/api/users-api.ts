@@ -3,19 +3,32 @@ import { profileAPI } from "./profile-api";
 
 export const usersAPI = {
   // идентично записи getUsers: getUsers()
-  getUsers(currentPage = 1, pageSize = 10) {
+  getUsers(
+    currentPage = 1,
+    pageSize = 10,
+    term: string = "",
+    friend: null | boolean = null
+  ) {
     return instance
-      .get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+      .get<GetItemsType>(
+        `users?page=${currentPage}&count=${pageSize}` +
+          (term.length > 0 ? `&term=${term}` : "") +
+          (friend === null ? "" : `&friend=${friend}`)
+      )
       .then((res) => {
         // передаём Promise.resolve дальше, если стоит return то мы можешь сколько угодно раз передавать значения
         return res.data;
       });
   },
   follow(userId: number) {
-    return instance.post<APIResponseType>(`follow/${userId}`).then(res => res.data);
+    return instance
+      .post<APIResponseType>(`follow/${userId}`)
+      .then((res) => res.data);
   },
   unfollow(userId: number) {
-    return instance.delete(`follow/${userId}`).then(res => res.data) as Promise<APIResponseType>;
+    return instance
+      .delete(`follow/${userId}`)
+      .then((res) => res.data) as Promise<APIResponseType>;
   },
   getProfile(userId: number) {
     // если переносим метод, а некот. люди неосводемлены, можно сделать т.о.
